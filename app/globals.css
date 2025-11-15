@@ -218,7 +218,8 @@
     @apply absolute bg-white shadow-lg rounded-lg flex flex-col gap-2 w-full z-10 top-12;
 
     .list-item {
-      @apply px-3 py-2.5 text-sm font-medium -tracking-[0.8px] relative text-dark-100 cursor-pointer hover:bg-theme-100 hover:text-white transition-colors duration-200 ease-in-out rounded-md;
+      @apply px-3 py-2.5 text-sm font-medium 
+      -tracking-[0.8px] relative text-dark-100 cursor-pointer hover:bg-theme-100 hover:text-white transition-colors duration-200 ease-in-out rounded-md;
 
       img {
         @apply absolute right-3 top-1/2 -translate-y-1/2;

@@ -1,10 +1,12 @@
+import Header from "@/components/Header";
 import React from "react";
 
 const Page = () => {
   return (
-    <div>
-      <h1 className="text-2xl font-carla">Welcome to StreamCast</h1>
-    </div>
+    <main className="wrapper page">
+      <Header title="All Videos" subHeader="Public Library" />
+      <h1 className="text-2xl font-karla">Welcome to StreamCast</h1>
+    </main>
   );
 };
 
