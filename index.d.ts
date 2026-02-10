@@ -82,7 +82,7 @@ declare interface VideoCardProps {
 }
 
 declare interface VideoDetailHeaderProps {
-  id: string;
+  id?: string;
   title: string;
   createdAt: Date;
   userImg: string | null | undefined;
@@ -117,8 +117,8 @@ type Visibility = "public" | "private" | string;
 declare interface VideoDetails {
   videoId: string;
   title: string;
-  description: string;
-  thumbnailUrl: string;
+  description?: string | "";
+  thumbnailUrl?: string | "";
   visibility: Visibility;
   duration?: number | null;
 }

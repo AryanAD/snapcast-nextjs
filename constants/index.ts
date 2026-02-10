@@ -56,7 +56,7 @@ export const dummyCards = [
     visibility: "public",
     createdAt: new Date("2025-12-01"),
     userImg: "/assets/images/jason.png",
-    title: "SnapCast Message",
+    title: "StreamCast Message",
     thumbnail: "/assets/samples/thumbnail1.png",
   },
   {

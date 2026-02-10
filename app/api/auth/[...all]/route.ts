@@ -1,6 +1,11 @@
 import aj from "@/lib/arcjet";
 import { auth } from "@/lib/auth";
-import { ArcjetDecision, slidingWindow, validateEmail } from "@arcjet/next";
+import {
+  ArcjetDecision,
+  shield,
+  slidingWindow,
+  validateEmail,
+} from "@arcjet/next";
 import { toNextJsHandler } from "better-auth/next-js";
 import { NextRequest } from "next/server";
 import { findIp } from "@arcjet/ip";
@@ -18,6 +23,12 @@ const rateLimit = aj.withRule(
     interval: "2m",
     max: 2,
     characteristics: ["fingerprint"],
+  }),
+);
+
+const shieldValidation = aj.withRule(
+  shield({
+    mode: "LIVE",
   }),
 );
 
@@ -42,7 +53,12 @@ const protectedAuth = async (req: NextRequest): Promise<ArcjetDecision> => {
     }
   }
 
-  return rateLimit.protect(req, { fingerprint: userId });
+  if (!req.nextUrl.pathname.startsWith("/api/auth/sign-out")) {
+    return rateLimit.protect(req, {
+      fingerprint: userId,
+    });
+  }
+  return shieldValidation.protect(req);
 };
 
 const authHandlers = toNextJsHandler(auth.handler);
@@ -63,4 +79,6 @@ export const POST = async (req: NextRequest) => {
       throw new Error("Shield has blocked malicious activity.");
     }
   }
+
+  return authHandlers.POST(req);
 };
