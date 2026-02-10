@@ -3,10 +3,19 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
-    domains: [
-      "cdn.bunny.net",
-      "storage.bunnycdn.com",
-      "lh3.googleusercontent.com",
+    remotePatterns: [
+      {
+        hostname: "streamcast-bcavi.b-cdn.net",
+        protocol: "https",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        hostname: "lh3.googleusercontent.com",
+        protocol: "https",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
 };
