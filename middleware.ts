@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import aj from "./lib/arcjet";
+import { detectBot, shield } from "arcjet";
+import { createMiddleware } from "@arcjet/next";
 
 export function middleware(req: NextRequest) {
   const sessionToken = req.cookies.get("better-auth.session_token")?.value;
@@ -9,6 +12,20 @@ export function middleware(req: NextRequest) {
 
   return NextResponse.next();
 }
+
+const validate = aj
+  .withRule(
+    shield({
+      mode: "LIVE",
+    }),
+  )
+  .withRule(
+    detectBot({
+      mode: "LIVE",
+      allow: ["CATEGORY:SEARCH_ENGINE", "GOOGLE_CRAWLER"],
+    }),
+  );
+export default createMiddleware(validate);
 
 export const config = {
   matcher: ["/((?!api|_next/static|_next/image|favicon.ico|sign-in|assets).*)"],

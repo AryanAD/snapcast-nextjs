@@ -1,13 +1,15 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React from "react";
+import { redirect, useRouter } from "next/navigation";
 
-const user = {};
 const Navbar = () => {
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
   const router = useRouter();
+
   return (
     <header className="navbar">
       <nav>
@@ -23,16 +25,27 @@ const Navbar = () => {
 
         {user && (
           <figure>
-            <button onClick={() => router.push("/profile/123")}>
+            <button onClick={() => router.push(`/profile/${session?.user.id}`)}>
               <Image
-                src="/assets/images/dummy.jpg"
+                src={session?.user.image || "/assets/icons/default-avatar.png"}
                 alt="User"
                 width={36}
                 height={36}
                 className="rounded-full aspect-square"
               />
             </button>
-            <button className="cursor-pointer">
+            <button
+              className="cursor-pointer"
+              onClick={async () => {
+                return await authClient.signOut({
+                  fetchOptions: {
+                    onSuccess: () => {
+                      redirect("/sign-in");
+                    },
+                  },
+                });
+              }}
+            >
               <Image
                 src="/assets/icons/logout.svg"
                 alt=" Logout"
